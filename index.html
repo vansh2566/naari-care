@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naari Care - Your Personal Wellness Companion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="logo-hindi">नारी</span> Care
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="features.html">Features</a>
+                    <a href="nutrition.html">Nutrition & Health</a>
+                    <a href="mental-wellness.html">Mental Wellness</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-login">Login / Sign Up</button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Your Personal Wellness Companion — From Periods to Parenthood.</h1>
+                    <p class="hero-subtitle">Track, Learn, and Care — All in one place, for every phase of womanhood.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary">Get Started</button>
+                        <button class="btn btn-outline">Learn More</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="images/hero-illustration.svg" alt="Woman using health app" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>A Feature for Every Need</h2>
+                <p>Empowering you with tools that understand and adapt to your body's needs.</p>
+            </div>
+            <div class="feature-cards">
+                <div class="card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Cycle Tracker</h3>
+                    <p>Smart predictions, personalized insights, and timely reminders to keep you in sync with your cycle.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon"><i class="fas fa-baby-carriage"></i></div>
+                    <h3>Pregnancy Care</h3>
+                    <p>Week-by-week guidance, nutrition plans, and safety tips for a healthy and happy pregnancy journey.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon"><i class="fas fa-spa"></i></div>
+                    <h3>Mental Wellness</h3>
+                    <p>AI-based emotional health support, guided meditations, and a safe space to nurture your mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>Get Started in 3 Simple Steps</h2>
+            <div class="steps">
+                <div class="step" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up & Share</h3>
+                    <p>Create your profile and tell us about your current phase and goals.</p>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="step-number">2</div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Our smart algorithm analyzes your needs to create a personalized plan.</p>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="step-number">3</div>
+                    <h3>Get Daily Insights</h3>
+                    <p>Receive daily tips, articles, and wellness insights tailored just for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Trusted by Women Who Care for Themselves</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="images/user1.jpg" alt="Priya Sharma" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2230%22 fill=%22%236366F1%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2224%22%3EP%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <p class="testimonial-text">"Naari Care has been a game-changer for my PCOS management. The predictions are so accurate!"</p>
+                    <p class="testimonial-name">- Priya Sharma</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="images/user2.jpg" alt="Aisha Khan" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2230%22 fill=%22%238B5CF6%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2224%22%3EA%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <p class="testimonial-text">"The pregnancy guide was my constant companion. I felt so supported and informed throughout my journey."</p>
+                    <p class="testimonial-name">- Aisha Khan</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="images/user3.jpg" alt="Ananya Reddy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2230%22 fill=%22%2306B6D4%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2224%22%3EA%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <p class="testimonial-text">"The mental wellness features are incredible. The AI chatbot feels like talking to a supportive friend."</p>
+                    <p class="testimonial-name">- Ananya Reddy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Start your wellness journey today.</h2>
+            <p>Download the app and join a community of women dedicated to holistic health and empowerment.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Download App</button>
+                <button class="btn btn-secondary">Join Community</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><span class="logo-hindi">नारी</span> Care</h3>
+                    <p>Your personal wellness companion for every phase of womanhood. We believe in empowering women through knowledge and care.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Nutrition Guides</a></li>
+                        <li><a href="#">Pregnancy Tips</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>support@naaricare.com</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Naari Care. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+    <script src="js/images-config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
