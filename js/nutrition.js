@@ -104,7 +104,7 @@ function filterByNutrient(nutrient) {
 
 // Favorite Foods (using localStorage)
 const favoriteIcon = '⭐';
-const unfavoriteIcon = '<i class="far fa-star"></i>';
+const unfavoriteIcon = '☆';
 
 function toggleFavorite(foodName) {
     const favorites = JSON.parse(localStorage.getItem('favoriteFoods') || '[]');
@@ -125,13 +125,15 @@ function toggleFavorite(foodName) {
 document.querySelectorAll('.nutrition-card .card-header').forEach(header => {
     const favoriteBtn = document.createElement('button');
     favoriteBtn.className = 'favorite-btn';
-    favoriteBtn.textContent = unfavoriteIcon;
+    favoriteBtn.innerHTML = '<i class="far fa-star"></i>';
     favoriteBtn.style.cssText = `
         background: none;
         border: none;
         font-size: 1.5rem;
         cursor: pointer;
         margin-left: auto;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
     `;
     
     const foodName = header.querySelector('h4').textContent;
@@ -144,7 +146,11 @@ document.querySelectorAll('.nutrition-card .card-header').forEach(header => {
     favoriteBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         toggleFavorite(foodName);
-        this.textContent = this.textContent === favoriteIcon ? unfavoriteIcon : favoriteIcon;
+        if (this.textContent === favoriteIcon) {
+            this.innerHTML = '<i class="far fa-star"></i>';
+        } else {
+            this.textContent = favoriteIcon;
+        }
     });
     
     header.appendChild(favoriteBtn);
@@ -172,7 +178,27 @@ document.querySelectorAll('.tip-card').forEach(card => {
 });
 
 function showTipDetail(title, content) {
-    showSuccessMessage(`<i class="fas fa-lightbulb"></i> ${title}: ${content}`);
+    const successDiv = document.createElement('div');
+    successDiv.innerHTML = `<i class="fas fa-lightbulb"></i> <strong>${title}:</strong> ${content}`;
+    successDiv.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #6366F1, #8B5CF6);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 6px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        animation: slideIn 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(successDiv);
+    
+    setTimeout(() => {
+        successDiv.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => successDiv.remove(), 300);
+    }, 3000);
 }
 
 // Helper function
