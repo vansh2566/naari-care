@@ -313,3 +313,272 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ===================================
+// MODAL FUNCTIONALITY
+// ===================================
+
+// Modal Management
+const modalManager = {
+    communityModal: null,
+    loginModal: null,
+    downloadModal: null,
+    
+    init() {
+        this.communityModal = document.getElementById('communityModal');
+        this.loginModal = document.getElementById('loginModal');
+        this.downloadModal = document.getElementById('downloadModal');
+        
+        // Setup button event listeners
+        this.setupButtons();
+        
+        // Setup close buttons
+        this.setupCloseButtons();
+        
+        // Close on outside click
+        this.setupOutsideClick();
+        
+        // Setup community chat functionality
+        this.setupCommunityChat();
+    },
+    
+    setupButtons() {
+        // Get Started button -> Login Modal
+        const getStartedBtn = document.querySelector('.hero-buttons .btn-primary');
+        if (getStartedBtn) {
+            getStartedBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openModal(this.loginModal);
+            });
+        }
+        
+        // Learn More button -> Smooth scroll to features
+        const learnMoreBtn = document.querySelector('.hero-buttons .btn-outline');
+        if (learnMoreBtn) {
+            learnMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const featuresSection = document.getElementById('features');
+                if (featuresSection) {
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = featuresSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+        
+        // Login / Sign Up button in navbar -> Login Modal
+        const loginBtn = document.querySelector('.btn-login');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openModal(this.loginModal);
+            });
+        }
+        
+        // Join Community button -> Community Modal
+        const joinCommunityBtns = document.querySelectorAll('.btn-primary');
+        joinCommunityBtns.forEach(btn => {
+            if (btn.textContent.trim() === 'Join Community') {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.openModal(this.communityModal);
+                    this.loadCommunityMessages('general');
+                });
+            }
+        });
+        
+        // Download App button -> Download Modal
+        const downloadBtns = document.querySelectorAll('.btn-outline');
+        downloadBtns.forEach(btn => {
+            if (btn.textContent.trim() === 'Download App') {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.openModal(this.downloadModal);
+                });
+            }
+        });
+    },
+    
+    setupCloseButtons() {
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.closeAllModals();
+            });
+        });
+    },
+    
+    setupOutsideClick() {
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                this.closeAllModals();
+            }
+        });
+    },
+    
+    openModal(modal) {
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    },
+    
+    closeAllModals() {
+        [this.communityModal, this.loginModal, this.downloadModal].forEach(modal => {
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        });
+        document.body.style.overflow = '';
+    },
+    
+    setupCommunityChat() {
+        // Tab switching
+        const tabs = document.querySelectorAll('.community-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const channel = tab.dataset.channel;
+                this.loadCommunityMessages(channel);
+            });
+        });
+        
+        // Send message functionality
+        const sendBtn = document.getElementById('sendMessage');
+        const chatInput = document.getElementById('chatInput');
+        
+        if (sendBtn && chatInput) {
+            const sendMessage = () => {
+                const message = chatInput.value.trim();
+                if (message) {
+                    this.addChatMessage('You', message, true);
+                    chatInput.value = '';
+                    
+                    // Simulate a response after 1 second
+                    setTimeout(() => {
+                        const responses = [
+                            "That's a great point! Thanks for sharing.",
+                            "I completely agree with you!",
+                            "Thanks for your input! Very helpful.",
+                            "Interesting perspective! 💕"
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        this.addChatMessage('Community Member', randomResponse, false);
+                    }, 1000);
+                }
+            };
+            
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+    },
+    
+    loadCommunityMessages(channel) {
+        const messagesContainer = document.getElementById('chatMessages');
+        if (!messagesContainer) return;
+        
+        messagesContainer.innerHTML = '';
+        
+        const demoMessages = {
+            general: [
+                { name: 'Priya Sharma', message: 'Hello everyone! New to this community. Excited to be here! 💕', time: '10:30 AM' },
+                { name: 'Ananya Patel', message: 'Welcome! This is such a supportive space. Feel free to ask anything.', time: '10:32 AM' },
+                { name: 'Sana Khan', message: 'I just started my wellness journey and this app has been amazing!', time: '10:45 AM' },
+                { name: 'Riya Verma', message: 'Does anyone have tips for managing stress? Having a tough week 😔', time: '11:00 AM' },
+                { name: 'Neha Gupta', message: 'Meditation and deep breathing really help me! Try the guided sessions in the app.', time: '11:05 AM' }
+            ],
+            pregnancy: [
+                { name: 'Meera Reddy', message: 'I\'m in my second trimester and experiencing back pain. Any suggestions?', time: '9:15 AM' },
+                { name: 'Dr. Anjali', message: 'Prenatal yoga can be very helpful! Check with your doctor first though.', time: '9:20 AM' },
+                { name: 'Kavya Singh', message: 'Swimming helped me a lot during pregnancy! Very gentle on the body.', time: '9:30 AM' },
+                { name: 'Pooja Jain', message: 'Make sure to use a pregnancy pillow for better sleep. Game changer! 🤰', time: '9:45 AM' }
+            ],
+            wellness: [
+                { name: 'Simran Kaur', message: 'Just completed a 30-day meditation challenge! Feeling amazing ✨', time: '8:00 AM' },
+                { name: 'Tanvi Shah', message: 'That\'s inspiring! I want to start too. Any beginner tips?', time: '8:15 AM' },
+                { name: 'Diya Mehta', message: 'Start with just 5 minutes a day. The app has great beginner sessions!', time: '8:20 AM' },
+                { name: 'Aisha Rahman', message: 'Also, don\'t be hard on yourself if you miss a day. It\'s about progress not perfection 💪', time: '8:25 AM' }
+            ]
+        };
+        
+        const messages = demoMessages[channel] || demoMessages.general;
+        messages.forEach(msg => {
+            this.addChatMessage(msg.name, msg.message, false, msg.time);
+        });
+        
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    },
+    
+    addChatMessage(name, message, isOwn = false, time = null) {
+        const messagesContainer = document.getElementById('chatMessages');
+        if (!messagesContainer) return;
+        
+        const displayTime = time || new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+        
+        const messageHTML = `
+            <div class="chat-message">
+                <div class="message-header">
+                    <div class="message-avatar">${initials}</div>
+                    <span class="message-name">${name}</span>
+                    <span class="message-time">${displayTime}</span>
+                </div>
+                <div class="message-text ${isOwn ? 'own-message' : ''}">${message}</div>
+            </div>
+        `;
+        
+        messagesContainer.insertAdjacentHTML('beforeend', messageHTML);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+};
+
+// Initialize modals when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    modalManager.init();
+});
+
+// Login Form Submission
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (validateEmail(email) && password.length >= 6) {
+                showSuccessMessage('Login feature coming soon! Stay tuned for our app launch.');
+                modalManager.closeAllModals();
+                loginForm.reset();
+            } else {
+                showSuccessMessage('Please enter valid credentials (password min 6 characters)');
+            }
+        });
+    }
+});
+
+// Download Notification Form
+document.addEventListener('DOMContentLoaded', () => {
+    const notifyForm = document.getElementById('notifyForm');
+    if (notifyForm) {
+        notifyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('notifyEmail').value;
+            
+            if (validateEmail(email)) {
+                showSuccessMessage('Thank you! We\'ll notify you when the app launches. 🎉');
+                notifyForm.reset();
+            } else {
+                showSuccessMessage('Please enter a valid email address');
+            }
+        });
+    }
+});

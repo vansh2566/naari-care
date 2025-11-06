@@ -196,6 +196,89 @@
         </div>
     </footer>
 
+    <!-- Community Chat Modal -->
+    <div id="communityModal" class="modal">
+        <div class="modal-content community-chat">
+            <div class="modal-header">
+                <h2><i class="fas fa-users"></i> Naari Care Community</h2>
+                <button class="modal-close" id="closeCommunity">&times;</button>
+            </div>
+            <div class="community-tabs">
+                <button class="community-tab active" data-tab="general">General Chat</button>
+                <button class="community-tab" data-tab="pregnancy">Pregnancy</button>
+                <button class="community-tab" data-tab="wellness">Wellness</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="communityMessages">
+                    <!-- Messages will be added here -->
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="communityInput" placeholder="Share your thoughts with the community..." class="chat-input">
+                    <button id="sendMessage" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content login-modal">
+            <div class="modal-header">
+                <h2>Welcome to Naari Care</h2>
+                <button class="modal-close" id="closeLogin">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Join thousands of women on their wellness journey</p>
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Sign In</button>
+                </form>
+                <p class="auth-switch">Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download App Modal -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content download-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-mobile-alt"></i> Download Naari Care</h2>
+                <button class="modal-close" id="closeDownload">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Coming soon to your favorite platforms</p>
+                <div class="download-options">
+                    <button class="download-btn" disabled>
+                        <i class="fab fa-apple"></i>
+                        <div>
+                            <small>Download on the</small>
+                            <strong>App Store</strong>
+                        </div>
+                    </button>
+                    <button class="download-btn" disabled>
+                        <i class="fab fa-google-play"></i>
+                        <div>
+                            <small>Get it on</small>
+                            <strong>Google Play</strong>
+                        </div>
+                    </button>
+                </div>
+                <p class="coming-soon-text"><i class="fas fa-clock"></i> Launching Soon! Sign up to get notified.</p>
+                <div class="notify-form">
+                    <input type="email" placeholder="Enter your email" id="notifyEmail">
+                    <button class="btn btn-primary" id="notifyMe">Notify Me</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
