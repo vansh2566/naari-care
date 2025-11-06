@@ -203,17 +203,28 @@
                 <h2><i class="fas fa-users"></i> Naari Care Community</h2>
                 <button class="modal-close" id="closeCommunity">&times;</button>
             </div>
+            <div class="modal-subtitle" style="padding: 0 24px; margin-bottom: 0;">
+                <span style="color: var(--primary-color); font-weight: 600;">✨ Demo Preview</span> - 
+                Experience our supportive community space
+                <a href="community.html" style="color: var(--primary-color); text-decoration: underline; margin-left: 8px;">Visit Full Community →</a>
+            </div>
             <div class="community-tabs">
-                <button class="community-tab active" data-tab="general">General Chat</button>
-                <button class="community-tab" data-tab="pregnancy">Pregnancy</button>
-                <button class="community-tab" data-tab="wellness">Wellness</button>
+                <button class="community-tab active" data-channel="general">
+                    <i class="fas fa-comments"></i> General Chat
+                </button>
+                <button class="community-tab" data-channel="pregnancy">
+                    <i class="fas fa-baby"></i> Pregnancy
+                </button>
+                <button class="community-tab" data-channel="wellness">
+                    <i class="fas fa-spa"></i> Wellness
+                </button>
             </div>
             <div class="chat-container">
-                <div class="chat-messages" id="communityMessages">
+                <div class="chat-messages" id="chatMessages">
                     <!-- Messages will be added here -->
                 </div>
                 <div class="chat-input-container">
-                    <input type="text" id="communityInput" placeholder="Share your thoughts with the community..." class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Share your thoughts with the community..." class="chat-input">
                     <button id="sendMessage" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>

@@ -378,8 +378,8 @@ const modalManager = {
             });
         }
         
-        // Join Community button is now handled separately to redirect to community.html
-        // See the separate event listener at the bottom of the file
+        // Join Community buttons are handled by the separate event listener below
+        // to ensure they open the community modal properly
         
         // Download App button -> Download Modal
         const downloadBtns = document.querySelectorAll('.btn-outline');
@@ -448,17 +448,35 @@ const modalManager = {
                     this.addChatMessage('You', message, true);
                     chatInput.value = '';
                     
-                    // Simulate a response after 1 second
+                    // Simulate a response after 1.5 seconds
                     setTimeout(() => {
-                        const responses = [
-                            "That's a great point! Thanks for sharing.",
-                            "I completely agree with you!",
-                            "Thanks for your input! Very helpful.",
-                            "Interesting perspective! 💕"
-                        ];
-                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                        this.addChatMessage('Community Member', randomResponse, false);
-                    }, 1000);
+                        // Get current active tab to provide contextual response
+                        const activeTab = document.querySelector('.community-tab.active');
+                        const currentChannel = activeTab ? activeTab.dataset.channel : 'general';
+                        
+                        const responses = {
+                            general: [
+                                { name: 'Priya Sharma', message: "That's a great point! Thanks for sharing. 💕" },
+                                { name: 'Ananya Patel', message: "I completely agree with you! This community is amazing." },
+                                { name: 'Sana Khan', message: "Thanks for your input! Very helpful." },
+                                { name: 'Neha Gupta', message: "Interesting perspective! Love this discussion. ✨" }
+                            ],
+                            pregnancy: [
+                                { name: 'Dr. Anjali', message: "Great question! Remember to always consult your doctor for personalized advice. 🤰" },
+                                { name: 'Meera Reddy', message: "Thanks for sharing! This is so helpful for expecting moms." },
+                                { name: 'Kavya Singh', message: "I experienced something similar! You're not alone in this journey. 💕" }
+                            ],
+                            wellness: [
+                                { name: 'Simran Kaur', message: "That's wonderful! Keep up the great work! ✨" },
+                                { name: 'Diya Mehta', message: "Love your positive energy! We're all growing together. 🌸" },
+                                { name: 'Aisha Rahman', message: "Progress over perfection! You're doing amazing! 💪" }
+                            ]
+                        };
+                        
+                        const channelResponses = responses[currentChannel] || responses.general;
+                        const randomResponse = channelResponses[Math.floor(Math.random() * channelResponses.length)];
+                        this.addChatMessage(randomResponse.name, randomResponse.message, false);
+                    }, 1500);
                 }
             };
             
@@ -479,23 +497,27 @@ const modalManager = {
         
         const demoMessages = {
             general: [
-                { name: 'Priya Sharma', message: 'Hello everyone! New to this community. Excited to be here! 💕', time: '10:30 AM' },
-                { name: 'Ananya Patel', message: 'Welcome! This is such a supportive space. Feel free to ask anything.', time: '10:32 AM' },
-                { name: 'Sana Khan', message: 'I just started my wellness journey and this app has been amazing!', time: '10:45 AM' },
-                { name: 'Riya Verma', message: 'Does anyone have tips for managing stress? Having a tough week 😔', time: '11:00 AM' },
-                { name: 'Neha Gupta', message: 'Meditation and deep breathing really help me! Try the guided sessions in the app.', time: '11:05 AM' }
+                { name: 'Priya Sharma', message: 'Hello everyone! 👋 New to this community. So excited to be here and connect with you all! 💕', time: '10:30 AM' },
+                { name: 'Ananya Patel', message: 'Welcome Priya! 🌸 This is such a supportive and caring space. Feel free to ask anything - we\'re all here to help each other.', time: '10:32 AM' },
+                { name: 'Sana Khan', message: 'I just started my wellness journey last month and this app has been absolutely amazing! The guided meditations and daily tips are life-changing. 🧘‍♀️', time: '10:45 AM' },
+                { name: 'Riya Verma', message: 'Does anyone have tips for managing work stress? Having a particularly tough week and could use some advice 😔', time: '11:00 AM' },
+                { name: 'Neha Gupta', message: 'Meditation and deep breathing really help me during stressful times! Try the guided sessions in the app. Also, taking short walks and staying hydrated makes a huge difference. You\'ve got this! 💪', time: '11:05 AM' },
+                { name: 'Riya Verma', message: 'Thank you so much Neha! 🙏 I\'ll try those techniques today. This community is truly wonderful!', time: '11:08 AM' }
             ],
             pregnancy: [
-                { name: 'Meera Reddy', message: 'I\'m in my second trimester and experiencing back pain. Any suggestions?', time: '9:15 AM' },
-                { name: 'Dr. Anjali', message: 'Prenatal yoga can be very helpful! Check with your doctor first though.', time: '9:20 AM' },
-                { name: 'Kavya Singh', message: 'Swimming helped me a lot during pregnancy! Very gentle on the body.', time: '9:30 AM' },
-                { name: 'Pooja Jain', message: 'Make sure to use a pregnancy pillow for better sleep. Game changer! 🤰', time: '9:45 AM' }
+                { name: 'Meera Reddy', message: 'Good morning lovely mamas! 🌅 I\'m in my second trimester and experiencing some lower back pain. Any suggestions or remedies that worked for you?', time: '9:15 AM' },
+                { name: 'Dr. Anjali', message: 'Hi Meera! Prenatal yoga can be very helpful for back pain. Also try a warm compress and make sure you\'re wearing supportive shoes. Always check with your doctor first though! 👩‍⚕️', time: '9:20 AM' },
+                { name: 'Kavya Singh', message: 'Swimming helped me SO much during my pregnancy! It\'s very gentle on the body and the water takes pressure off your back. Highly recommend! 🏊‍♀️', time: '9:30 AM' },
+                { name: 'Pooja Jain', message: 'A good pregnancy pillow was an absolute game changer for me! Also, try sleeping on your left side with the pillow between your knees. Sweet dreams! 🤰💤', time: '9:45 AM' },
+                { name: 'Meera Reddy', message: 'You all are angels! 😇 Thank you so much for these wonderful suggestions. I\'ll definitely try them. This community gives me so much comfort! ❤️', time: '10:00 AM' }
             ],
             wellness: [
-                { name: 'Simran Kaur', message: 'Just completed a 30-day meditation challenge! Feeling amazing ✨', time: '8:00 AM' },
-                { name: 'Tanvi Shah', message: 'That\'s inspiring! I want to start too. Any beginner tips?', time: '8:15 AM' },
-                { name: 'Diya Mehta', message: 'Start with just 5 minutes a day. The app has great beginner sessions!', time: '8:20 AM' },
-                { name: 'Aisha Rahman', message: 'Also, don\'t be hard on yourself if you miss a day. It\'s about progress not perfection 💪', time: '8:25 AM' }
+                { name: 'Simran Kaur', message: 'Just completed a 30-day meditation challenge! 🎉 Feeling absolutely amazing and so proud of myself. My stress levels have decreased significantly! ✨', time: '8:00 AM' },
+                { name: 'Tanvi Shah', message: 'That\'s so inspiring Simran! 🌟 I really want to start meditating but don\'t know where to begin. Any beginner tips?', time: '8:15 AM' },
+                { name: 'Diya Mehta', message: 'Start with just 5 minutes a day, Tanvi! The app has amazing beginner-friendly guided sessions. Consistency is way more important than duration. You\'ve got this! 🧘‍♀️', time: '8:20 AM' },
+                { name: 'Aisha Rahman', message: 'Also, don\'t be hard on yourself if you miss a day. It\'s about progress, not perfection! Be kind to yourself on this journey. 💕💪', time: '8:25 AM' },
+                { name: 'Simran Kaur', message: 'Yes! And the community challenges really kept me motivated. Join the next one - we\'re stronger together! 🌺', time: '8:30 AM' },
+                { name: 'Tanvi Shah', message: 'Thank you all! 🙏 Starting today with a 5-minute session. Here\'s to new beginnings! ✨', time: '8:35 AM' }
             ]
         };
         
@@ -653,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Update Join Community Button to redirect to community page
+// Update Join Community Button to open community modal
 document.addEventListener('DOMContentLoaded', () => {
     const joinCommunityBtns = document.querySelectorAll('.btn-primary');
     joinCommunityBtns.forEach(btn => {
@@ -662,10 +684,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const newBtn = btn.cloneNode(true);
             btn.parentNode.replaceChild(newBtn, btn);
             
-            // Add new event listener that redirects to community page
+            // Add new event listener that opens community modal
             newBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = 'community.html';
+                if (modalManager && modalManager.communityModal) {
+                    modalManager.openModal(modalManager.communityModal);
+                    modalManager.loadCommunityMessages('general');
+                }
             });
         }
     });
