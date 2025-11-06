@@ -378,17 +378,8 @@ const modalManager = {
             });
         }
         
-        // Join Community button -> Community Modal
-        const joinCommunityBtns = document.querySelectorAll('.btn-primary');
-        joinCommunityBtns.forEach(btn => {
-            if (btn.textContent.trim() === 'Join Community') {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.openModal(this.communityModal);
-                    this.loadCommunityMessages('general');
-                });
-            }
-        });
+        // Join Community button is now handled separately to redirect to community.html
+        // See the separate event listener at the bottom of the file
         
         // Download App button -> Download Modal
         const downloadBtns = document.querySelectorAll('.btn-outline');
@@ -581,4 +572,101 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
+
+// Auth Form Switching (Login/Signup)
+document.addEventListener('DOMContentLoaded', () => {
+    const switchAuthBtn = document.getElementById('switchAuth');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const authTitle = document.getElementById('authTitle');
+    const authSubtitle = document.getElementById('authSubtitle');
+    const switchText = document.getElementById('switchText');
+    
+    let isLoginMode = true;
+    
+    if (switchAuthBtn && loginForm && signupForm) {
+        switchAuthBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (isLoginMode) {
+                // Switch to signup
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                authTitle.textContent = 'Create Your Account';
+                authSubtitle.textContent = 'Start your wellness journey with Naari Care today';
+                switchText.textContent = 'Already have an account?';
+                switchAuthBtn.textContent = 'Sign in';
+                isLoginMode = false;
+            } else {
+                // Switch to login
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                authTitle.textContent = 'Welcome to Naari Care';
+                authSubtitle.textContent = 'Join thousands of women on their wellness journey';
+                switchText.textContent = 'Don\'t have an account?';
+                switchAuthBtn.textContent = 'Sign up';
+                isLoginMode = true;
+            }
+        });
+    }
+});
+
+// Signup Form Submission
+document.addEventListener('DOMContentLoaded', () => {
+    const signupForm = document.getElementById('signupForm');
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            if (!validateEmail(email)) {
+                showSuccessMessage('Please enter a valid email address');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showSuccessMessage('Password must be at least 6 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showSuccessMessage('Passwords do not match');
+                return;
+            }
+            
+            // Store user info in sessionStorage
+            sessionStorage.setItem('userName', name);
+            sessionStorage.setItem('userEmail', email);
+            
+            showSuccessMessage('Account created successfully! Redirecting to community... 🎉');
+            
+            // Redirect to community page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'community.html';
+            }, 2000);
+        });
+    }
+});
+
+// Update Join Community Button to redirect to community page
+document.addEventListener('DOMContentLoaded', () => {
+    const joinCommunityBtns = document.querySelectorAll('.btn-primary');
+    joinCommunityBtns.forEach(btn => {
+        if (btn.textContent.trim() === 'Join Community') {
+            // Remove the old event listener by cloning the node
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            // Add new event listener that redirects to community page
+            newBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'community.html';
+            });
+        }
+    });
 });

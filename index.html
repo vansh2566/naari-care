@@ -220,27 +220,54 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Login/Signup Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content login-modal">
             <div class="modal-header">
-                <h2>Welcome to Naari Care</h2>
+                <h2 id="authTitle">Welcome to Naari Care</h2>
                 <button class="modal-close" id="closeLogin">&times;</button>
             </div>
             <div class="modal-body">
-                <p class="modal-subtitle">Join thousands of women on their wellness journey</p>
+                <p class="modal-subtitle" id="authSubtitle">Join thousands of women on their wellness journey</p>
+                
+                <!-- Login Form -->
                 <form id="loginForm" class="auth-form">
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" required placeholder="you@example.com">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" required placeholder="you@example.com">
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" required placeholder="Enter your password">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
                     </div>
                     <button type="submit" class="btn btn-primary full-width">Sign In</button>
                 </form>
-                <p class="auth-switch">Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+                
+                <!-- Signup Form (Hidden by default) -->
+                <form id="signupForm" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" required placeholder="Min. 6 characters">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Create Account</button>
+                </form>
+                
+                <p class="auth-switch">
+                    <span id="switchText">Don't have an account?</span> 
+                    <a href="#" id="switchAuth">Sign up</a>
+                </p>
             </div>
         </div>
     </div>
