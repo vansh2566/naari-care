@@ -1,5 +1,241 @@
 // Mental Wellness Page JavaScript
 
+// AI Chatbot Configuration
+const CHATBOT_CONFIG = {
+    // Using Hugging Face's free Inference API for demo
+    apiEndpoint: 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
+    // Fallback to local responses if API fails
+    useFallback: true
+};
+
+// Predefined wellness responses for demo/fallback
+const wellnessResponses = {
+    greetings: [
+        "Hello! I'm here to support you. How are you feeling today?",
+        "Hi there! I'm glad you're here. What's on your mind?",
+        "Welcome! I'm here to listen. How can I help you today?"
+    ],
+    anxiety: [
+        "I understand anxiety can be overwhelming. Let's try a breathing exercise together. Take a deep breath in for 4 counts, hold for 4, and exhale for 4. You're doing great.",
+        "Anxiety is tough, but you're not alone. Try grounding yourself - name 5 things you can see, 4 you can hear, 3 you can touch, 2 you can smell, and 1 you can taste.",
+        "I hear you. When feeling anxious, remember: this feeling is temporary. You've overcome difficult moments before, and you will again. Would you like to try a calming exercise?"
+    ],
+    stress: [
+        "Stress is your body's way of responding to challenges. Let's break things down - what's the most pressing thing on your mind right now?",
+        "It sounds like you're dealing with a lot. Remember to take breaks and practice self-care. Even 5 minutes of relaxation can help reset your mind.",
+        "Stress can be exhausting. Have you tried the 5-5-5 rule? Breathe in for 5, hold for 5, breathe out for 5. This activates your body's relaxation response."
+    ],
+    sadness: [
+        "I'm sorry you're feeling down. It's okay to not be okay sometimes. Your feelings are valid. Is there something specific that's bothering you?",
+        "Sadness is a natural emotion, and it's important to acknowledge it. Remember to be kind to yourself. What usually helps you feel a bit better?",
+        "I hear you. During difficult times, try to focus on small, achievable tasks. Each small win can help lift your mood a little. You're stronger than you know."
+    ],
+    positive: [
+        "That's wonderful to hear! What's contributing to these positive feelings? Recognizing what makes us happy is important.",
+        "I'm so glad you're feeling good! Keep nurturing that positive energy. What brings you joy?",
+        "That's great! Positive moments are worth celebrating. How can I support you in maintaining this feeling?"
+    ],
+    default: [
+        "I'm here to listen. Can you tell me more about how you're feeling?",
+        "Thank you for sharing. Your feelings matter. Would you like to talk about it?",
+        "I understand. Sometimes it helps just to express what we're going through. I'm listening.",
+        "It takes courage to reach out. How can I best support you right now?"
+    ],
+    encouragement: [
+        "You're doing great by taking care of your mental health. That's a brave step! 💕",
+        "Remember: You are enough. You are worthy. You are loved. 🌸",
+        "One day at a time, one step at a time. You've got this! 💪",
+        "Your mental health journey is unique and valid. Be patient with yourself. ✨"
+    ],
+    techniques: [
+        "Try the 4-7-8 breathing technique: Breathe in for 4 counts, hold for 7, exhale for 8. This can help calm your nervous system.",
+        "Progressive muscle relaxation can help: Tense each muscle group for 5 seconds, then release. Start from your toes and work up to your head.",
+        "Journaling can be therapeutic. Try writing down 3 things you're grateful for today, no matter how small.",
+        "Physical movement helps! Even a 5-minute walk or some gentle stretching can boost your mood and reduce stress."
+    ]
+};
+
+// Chatbot state
+let conversationHistory = [];
+let isTyping = false;
+
+// Initialize chatbot
+document.addEventListener('DOMContentLoaded', function() {
+    initializeChatbot();
+});
+
+function initializeChatbot() {
+    const sendBtn = document.querySelector('.send-btn');
+    const chatInput = document.getElementById('chatInput');
+    const quickReplies = document.querySelectorAll('.quick-reply');
+    
+    if (sendBtn && chatInput) {
+        sendBtn.addEventListener('click', () => sendMessage());
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+    
+    // Quick reply buttons
+    quickReplies.forEach(button => {
+        button.addEventListener('click', function() {
+            const message = this.textContent.trim();
+            sendMessage(message);
+            // Hide quick replies after first use
+            document.querySelector('.quick-replies').style.display = 'none';
+        });
+    });
+}
+
+function sendMessage(customMessage = null) {
+    const chatInput = document.getElementById('chatInput');
+    const message = customMessage || chatInput.value.trim();
+    
+    if (!message || isTyping) return;
+    
+    // Add user message to chat
+    addMessage(message, 'user');
+    
+    // Clear input
+    if (!customMessage) {
+        chatInput.value = '';
+    }
+    
+    // Add to conversation history
+    conversationHistory.push({ role: 'user', content: message });
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Get AI response
+    setTimeout(() => {
+        getAIResponse(message);
+    }, 1000); // Simulate thinking time
+}
+
+function addMessage(text, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    
+    if (sender === 'bot') {
+        messageDiv.innerHTML = `
+            <div class="message-avatar"><i class="fas fa-robot"></i></div>
+            <div class="message-content">
+                <p>${text}</p>
+                <span class="message-time">${time}</span>
+            </div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${text}</p>
+                <span class="message-time">${time}</span>
+            </div>
+        `;
+    }
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+    isTyping = true;
+    const chatMessages = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot-message typing-indicator';
+    typingDiv.id = 'typingIndicator';
+    typingDiv.innerHTML = `
+        <div class="message-avatar"><i class="fas fa-robot"></i></div>
+        <div class="message-content">
+            <div class="typing-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    isTyping = false;
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+async function getAIResponse(userMessage) {
+    try {
+        // For demo purposes, use intelligent keyword-based responses
+        // In production, you can integrate with OpenAI, Anthropic, or other APIs
+        const response = generateWellnessResponse(userMessage);
+        
+        removeTypingIndicator();
+        addMessage(response, 'bot');
+        
+        // Add to conversation history
+        conversationHistory.push({ role: 'assistant', content: response });
+        
+        // Occasionally add encouraging messages
+        if (conversationHistory.length % 4 === 0) {
+            setTimeout(() => {
+                const encouragement = getRandomResponse(wellnessResponses.encouragement);
+                addMessage(encouragement, 'bot');
+            }, 2000);
+        }
+        
+    } catch (error) {
+        console.error('Error getting AI response:', error);
+        removeTypingIndicator();
+        const fallbackResponse = "I'm here for you. Could you tell me more about how you're feeling?";
+        addMessage(fallbackResponse, 'bot');
+    }
+}
+
+function generateWellnessResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Keyword detection for different emotional states
+    const keywords = {
+        anxiety: ['anxious', 'anxiety', 'worried', 'nervous', 'panic', 'scared', 'fear'],
+        stress: ['stressed', 'stress', 'overwhelmed', 'pressure', 'tired', 'exhausted', 'burnout'],
+        sadness: ['sad', 'depressed', 'down', 'lonely', 'hopeless', 'crying', 'upset', 'hurt'],
+        positive: ['good', 'great', 'happy', 'better', 'fine', 'well', 'okay', 'nice', 'wonderful'],
+        help: ['help', 'technique', 'tip', 'advice', 'what can', 'how to', 'suggest'],
+        gratitude: ['thank', 'thanks', 'grateful', 'appreciate']
+    };
+    
+    // Check for keywords
+    for (const [emotion, words] of Object.entries(keywords)) {
+        if (words.some(word => lowerMessage.includes(word))) {
+            if (emotion === 'help' || emotion === 'gratitude') {
+                if (emotion === 'gratitude') {
+                    return "You're welcome! I'm here whenever you need support. Remember, taking care of your mental health is a sign of strength. 💕";
+                }
+                return getRandomResponse(wellnessResponses.techniques);
+            }
+            return getRandomResponse(wellnessResponses[emotion]);
+        }
+    }
+    
+    // Check for greetings
+    if (/^(hi|hello|hey|good morning|good evening)/.test(lowerMessage)) {
+        return getRandomResponse(wellnessResponses.greetings);
+    }
+    
+    // Default empathetic response
+    return getRandomResponse(wellnessResponses.default);
+}
+
+function getRandomResponse(responseArray) {
+    return responseArray[Math.floor(Math.random() * responseArray.length)];
+}
+
 // Breathing Exercise
 let breathingInterval;
 let isBreathing = false;

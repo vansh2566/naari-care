@@ -1177,6 +1177,67 @@ section {
     background-color: #4F46E5;
 }
 
+/* User message styling */
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-message .message-content {
+    max-width: 70%;
+}
+
+.user-message .message-content p {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.bot-message .message-content p {
+    border-radius: 4px 18px 18px 18px;
+}
+
+/* Typing indicator */
+.typing-indicator .message-content {
+    padding: 0;
+}
+
+.typing-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    background-color: var(--card-bg);
+    border-radius: 4px 18px 18px 18px;
+    width: fit-content;
+}
+
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
 .chatbot-features {
     background-color: var(--card-bg);
     padding: 30px;
